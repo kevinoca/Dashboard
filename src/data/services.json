@@ -1,0 +1,6 @@
+{
+    "BIS_ACCOUNT_API": ":8071/bis-account-api/v1/",
+    "BIS_LOGIN_API/LOGIN": ":8092/bis-login-api/v1/authentication",
+    "BIS_LOGIN_API/LOGOUT": ":8092/bis-login-api/v1/authentication",
+    "BIS_LOGIN_API/REFRESH-TOKEN": ":8092/bis-login-api/v1/authentication/refresh-token"
+}
