@@ -1,3 +1,5 @@
+import { errorReporter } from "./utils"
+
 const FetchRequest = async (url = "", data = {}, method = "GET", authorization = false) => {
 
     const headers = new Headers({
@@ -21,21 +23,26 @@ const FetchRequest = async (url = "", data = {}, method = "GET", authorization =
     }
 
     try {
-        
+
         const request = await fetch(url, options)
         const response = await request.json()
 
         if (request.ok) {
+
             return response
+
         } else {
-            throw Error(response)
+
+            throw Error("The request has failed.")
+            
         }
 
     }
 
     catch (error) {
-        console.error(error)
-        return error;
+
+        errorReporter(error)
+        
     }
 
 }

@@ -27,33 +27,21 @@ class Login extends React.Component {
 
     signIn = async (userCredentials) => {
 
-        let successfullyCompleted = undefined;
+        const user = await this.Auth.signIn(userCredentials)
 
-        try {
-
-            const user = await this.Auth.signIn(userCredentials)
-
-            successfullyCompleted = true;
-
+        const success = () => {
             this.props.signIn(user)
-
             this.props.history.push("/dashboard")
-
-        } catch (error) {
-
-            successfullyCompleted = false
-
-            console.info(error)
-
-        } finally {
-
-            this.props.setBlocking(false);
-
-            (successfullyCompleted)
-                ? this.props.showNotification("User logeado, navegando a Dashboard", "success")
-                : this.props.showNotification("Please, try again later", "warning")
-
+            this.props.showNotification("User logeado, navegando a Dashboard", "success")
         }
+
+        const failure = () => this.props.showNotification("Please, try again later", "warning")
+
+        this.props.setBlocking(false)
+
+        return (user)
+            ? success()
+            : failure()
 
     }
 

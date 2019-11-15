@@ -37,4 +37,6 @@ const showNotification = (data, type) => {
 
 }
 
-export { formDataFormater, showNotification }
+const errorReporter = error => console.info(`%c ${error}`, 'background: #222; color: #bada55');
+
+export { formDataFormater, showNotification, errorReporter }

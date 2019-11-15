@@ -1,50 +1,10 @@
 import SERVICES from "../data/services"
 import FetchRequest from "../components/fetchRequest"
+import { errorReporter } from "../components/utils"
 
 export default class Authentication {
 
-    constructor() {
-
-        this.url = process.env["REACT_APP_PUBLIC_URL"] + SERVICES["BIS_LOGIN_API/LOGIN"]
-
-        //* TODO: REMEMBER DELETE THIS, IT'S ONLY FOR LOCAL DEVELOPMENT
-        this.user = {
-            id: 19873982,
-            firstName: "Developer",
-            lastName: "Lastname",
-            email: "developer@sice.com",
-            mobile: "697946218",
-            accountNumber: 21601186,
-            accountType: "Pre-paid Tag Account",
-            paymentMode: "Automatic",
-            accountBalance: 58.68,
-            lastPayment: 35.51,
-            currency: "€",
-            lastPaymentDate: "16/01/2019"
-        }
-
-    }
-
-    signIn = async (formData) => {
-
-        try {
-
-            const userSession = await this.getAuthenticationToken(formData)
-
-            this.setDataIntoLocalStorage("USER_DATA", this.user);
-            this.setDataIntoLocalStorage("APP_SESSION", userSession);
-            this.setDataIntoLocalStorage("APP_TOKKEN_CREATION", new Date());
-            this.setDataIntoLocalStorage("REFRESH_TOKKEN_CREATION", new Date());
-
-            return this.user
-
-        } catch (error) {
-
-            console.info(error)
-
-        }
-
-    }
+    signIn = async (formData) => await getAuthenticationToken(formData)
 
     signOut = async (APP_SESSION) => {
 
@@ -54,13 +14,11 @@ export default class Authentication {
 
                 localStorage.clear()
 
-                const response = await this.deleteUserSession(APP_SESSION)
-
-                return response
+                return await deleteUserSession(APP_SESSION)
 
             } catch (error) {
 
-                console.info(error)
+                errorReporter(error)
 
             }
 
@@ -68,38 +26,71 @@ export default class Authentication {
 
     }
 
-    deleteUserSession = async (APP_SESSION) => {
+}
 
-        const url = process.env["REACT_APP_PUBLIC_URL"] + SERVICES["BIS_LOGIN_API/LOGOUT"]
+const deleteUserSession = async (APP_SESSION) => {
 
-        const headers = new Headers({
-            "caller-app-id": "BISpublic",
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${APP_SESSION.accessToken}`,
-            "Access-Control-Request-Method": "DELETE",
-            "Access-Control-Request-Headers": "caller-app-id, Content-Type, Access-Control-Request-Method, Authorization"
-        })
+    const url = process.env["REACT_APP_PUBLIC_URL"] + SERVICES["BIS_LOGIN_API/LOGOUT"]
 
-        const options = {
-            headers,
-            method: "DELETE",
-            body: JSON.stringify(APP_SESSION)
-        }
+    const headers = new Headers({
+        "caller-app-id": "BISpublic",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${APP_SESSION.accessToken}`,
+        "Access-Control-Request-Method": "DELETE",
+        "Access-Control-Request-Headers": "caller-app-id, Content-Type, Access-Control-Request-Method, Authorization"
+    })
 
-        try {
-            await fetch(url, options)
-            return true
-        }
+    const options = {
+        headers,
+        method: "DELETE",
+        body: JSON.stringify(APP_SESSION)
+    }
 
-        catch (error) {
-            console.log(`%c ${error}`, 'background: #222; color: #bada55');
-            return error;
-        }
+    try {
+        await fetch(url, options)
+    }
+
+    catch (error) {
+
+        errorReporter(error)
 
     }
 
-    setDataIntoLocalStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value))
+}
 
-    getAuthenticationToken = async (formData) => await FetchRequest(this.url, formData, "POST")
+const storeUserData = data => {
+
+    const user = {
+        id: 19873982,
+        firstName: "Developer",
+        lastName: "Lastname",
+        email: "developer@sice.com",
+        mobile: "697946218",
+        accountNumber: 21601186,
+        accountType: "Pre-paid Tag Account",
+        paymentMode: "Automatic",
+        accountBalance: 58.68,
+        lastPayment: 35.51,
+        currency: "€",
+        lastPaymentDate: "16/01/2019"
+    }
+
+    setDataIntoLocalStorage("USER_DATA", user);
+    setDataIntoLocalStorage("APP_SESSION", data);
+    setDataIntoLocalStorage("APP_TOKKEN_CREATION", new Date());
+    setDataIntoLocalStorage("REFRESH_TOKKEN_CREATION", new Date());
+
+}
+
+const setDataIntoLocalStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value))
+
+const getAuthenticationToken = async (formData) => {
+
+    const url = process.env["REACT_APP_PUBLIC_URL"] + SERVICES["BIS_LOGIN_API/LOGIN"]
+
+    const response = await FetchRequest(url, formData, "POST")
+    if (response) storeUserData(response)
+
+    return response
 
 }
