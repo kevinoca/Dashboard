@@ -16,7 +16,6 @@ class UserProfile extends React.Component {
 
     signOut = async () => {
 
-        let response = undefined
 
         this.props.setBlocking(true)
 
@@ -24,21 +23,19 @@ class UserProfile extends React.Component {
 
         try {
 
-            response = await this.Auth.signOut(APP_SESSION)
+            await this.Auth.signOut(APP_SESSION)
 
             this.props.signOut()
 
+            this.props.showNotification("User logged out", "success")
+
         } catch (error) {
 
-            response = false
+            this.props.showNotification("Please try again later", "warning")
 
         } finally {
 
             this.props.setBlocking(false);
-
-            (response)
-                ? this.props.showNotification("User logged out", "success")
-                : this.props.showNotification("Please try again later", "warning")
 
         }
 
