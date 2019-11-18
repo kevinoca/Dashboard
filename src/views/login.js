@@ -9,6 +9,10 @@ class Login extends React.Component {
 
         super(props)
 
+        this.state = {
+            error: undefined
+        }
+
         this.Auth = new Auth()
 
     }
@@ -45,24 +49,39 @@ class Login extends React.Component {
 
     }
 
+    showError = () => this.setState({ error: true })
+
     render = () => {
 
-        return (
-            <>
-                <Link to="/home">> Home</Link>
-                <hr></hr>
-                <h1>login</h1>
-                <form onSubmit={e => this.submitForm(e)}>
-                    <input defaultValue="frank.herbert@sice.com" type="text" name="emailLogin" required />
-                    <br />
-                    <input defaultValue="111111" type="password" name="password" required />
-                    <br />
-                    <input name="appId" value="PUBLIC" type="hidden" />
-                    <br />
-                    <button type="submit">SIGN IN</button>
-                </form>
-            </>
-        )
+        if (this.state.error) {
+
+            throw new Error("asd")
+
+        } else {
+
+            return (
+
+                <>
+
+                    <Link to="/home">> Home</Link>
+                    <hr></hr>
+                    <h1>login</h1>
+                    <form onSubmit={e => this.submitForm(e)}>
+                        <input defaultValue="frank.herbert@sice.com" type="text" name="emailLogin" required />
+                        <br />
+                        <input defaultValue="111111" type="password" name="password" required />
+                        <br />
+                        <input name="appId" value="PUBLIC" type="hidden" />
+                        <br />
+                        <button type="submit">SIGN IN</button>
+                    </form>
+                    <button type="button" onClick={() => this.showError()}>Error</button>
+
+                </>
+
+            )
+
+        }
 
     }
 

@@ -5,7 +5,7 @@ import AppLayout from "../src/components/appLayout"
 import { toast as toastify } from 'react-toastify'
 import { showNotification } from "../src/components/utils"
 import 'react-toastify/dist/ReactToastify.css'
-
+import ErrorBoundary from "../src/components/errorBoundary"
 import PrivateRouter from "../src/components/PrivateRouter"
 import Home from "../src/views/home"
 import Login from "../src/views/login"
@@ -52,30 +52,33 @@ class App extends React.Component {
 
     return <>
 
-      <div className="App" style={{ position: "relative", padding: "1em" }}>
+      <ErrorBoundary>
 
-        <BlockUi blocking={blocking} message="Please wait" color="#dc2127" />
+        <div className="App" style={{ position: "relative", padding: "1em" }}>
 
-        <AppLayout>
+          <BlockUi blocking={blocking} message="Please wait" color="#dc2127" />
 
-          <Router>
-            <Switch>
-              <Route exact path="/" render={props => <Home {...props} {...commonData} />} />
-              <Route exact path="/home" render={props => <Home {...props} {...commonData} />} />
-              <Route exact path="/login" render={props =>
-                (authed)
+          <AppLayout>
+
+            <Router>
+              <Switch>
+                <Route exact path="/" render={props => <Home {...props} {...commonData} />} />
+                <Route exact path="/home" render={props => <Home {...props} {...commonData} />} />
+                <Route exact path="/login" render={props => (authed)
                   ? <Redirect to="/dashboard" />
                   : <Login {...props} {...commonData} signIn={this.signIn} />
-              } />
-              <PrivateRouter exact path="/dashboard" component={Dashboard} {...commonData} user={user} signOut={this.signOut} />
-              <PrivateRouter exact path="/user-profile" component={UserProfile} {...commonData} user={user} signOut={this.signOut} />
-              <Route render={props => <PageNotFound {...props} />} />
-            </Switch>
-          </Router>
+                } />
+                <PrivateRouter exact path="/dashboard" component={Dashboard} {...commonData} user={user} signOut={this.signOut} />
+                <PrivateRouter exact path="/user-profile" component={UserProfile} {...commonData} user={user} signOut={this.signOut} />
+                <Route render={props => <PageNotFound {...props} />} />
+              </Switch>
+            </Router>
 
-        </AppLayout>
+          </AppLayout>
 
-      </div>
+        </div>
+
+      </ErrorBoundary>
 
     </>
 
