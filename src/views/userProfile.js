@@ -16,7 +16,6 @@ class UserProfile extends React.Component {
 
     signOut = async () => {
 
-
         this.props.setBlocking(true)
 
         const APP_SESSION = this.getUserSession()
@@ -46,14 +45,18 @@ class UserProfile extends React.Component {
         const { firstName, lastName } = this.props.user
 
         return (
+
             <>
-                <Link to="/home">> Home</Link>
-                <Link to="/dashboard">> Dashboard</Link>
+
+                <Link to="/home">Home</Link>
+                <Link to="/dashboard">Dashboard</Link>
                 <hr></hr>
                 <div>User: {firstName} / {lastName}</div>
                 <br />
                 <button onClick={() => this.signOut()}>logout</button>
+
             </>
+
         )
 
     }
