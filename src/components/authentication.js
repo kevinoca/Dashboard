@@ -47,10 +47,16 @@ const deleteUserSession = async (APP_SESSION) => {
     }
 
     try {
-        await fetch(url, options)
-    }
 
-    catch (error) {
+        const response = await fetch(url, options)
+        
+        if (response.status === 204){
+            return true
+        }else{
+            throw new Error("Problem in the request.")
+        }
+
+    } catch (error) {
 
         errorReporter(error)
 
