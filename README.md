@@ -1,10 +1,12 @@
+## Presentacion:
+
 Hola, soy [Kevin Oca](https://github.com/kevinoca), un desarrollador web venezolano, fullstack especializado actualmente en Front-End.
 
 Este proyecto personal es un dashboard, teniendo conexiones reales con API RESTs, validacion con sessiones de usuario, enrutamiento entre componentes y vistas, manejo de errores, peticiones HTTP con Fetch API. 
 
 Todo esto realizado con codigo ES6++ sincrono y asincrono (promisses/async/await) con la libreria React JS y mucho javascript vanilla.
 
-## Main Goals:
+## Objetivos principales:
 
 Realizar una aplicacion (SPA) tipo dashboard con React JS y creando una arquitectura escalable aplicando conceptos y buenas practicas de clean code.
 
@@ -36,7 +38,7 @@ Ahora hay que abrir el localhost para ver el proyecto en ejecución (por defecto
 
 [http://localhost:3000](http://localhost:3000)
 
-## POR HACER:
+## Por Hacer:
 
 1. Incluir la libreria de JWT para el manejo de tokens y sessiones bajo encryptamiento (JWT).
 2. Incluir test unitarios.
@@ -45,5 +47,7 @@ Ahora hay que abrir el localhost para ver el proyecto en ejecución (por defecto
 5. Aplicar las reglas de accessibilidad en toda la aplicacion (Accesibilidad web).
 6. Aplicar clean code y mejoras de performance basados en Chrome Light House, incluido en las herramientas de desarrollador de Google Chrome.
 7. Transformar a Progressive Web App (PWA).
+8. Lazy loading.
+9. React Hooks
 
 y mucho mas.
