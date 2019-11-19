@@ -1,6 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
+console.info(process.env.REACT_APP_USER_CREDENTIALS)
+
 const Home = props => {
 
     return (

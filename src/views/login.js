@@ -47,6 +47,8 @@ class Login extends React.Component {
 
     render = () => {
 
+        const { name, password } = JSON.parse(process.env.REACT_APP_USER_CREDENTIALS)
+
         return (
 
             <>
@@ -55,9 +57,9 @@ class Login extends React.Component {
                 <hr></hr>
                 <h1>login</h1>
                 <form onSubmit={e => this.submitForm(e)}>
-                    <input defaultValue="" type="text" name="emailLogin" required />
+                    <input defaultValue={name} type="text" name="emailLogin" required />
                     <br />
-                    <input defaultValue="" type="password" name="password" required />
+                    <input defaultValue={password} type="password" name="password" required />
                     <br />
                     <input name="appId" value="PUBLIC" type="hidden" />
                     <br />
