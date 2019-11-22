@@ -32,35 +32,7 @@ const deleteUserSession = async (APP_SESSION) => {
 
     const url = process.env["REACT_APP_PUBLIC_URL"] + SERVICES["BIS_LOGIN_API/LOGOUT"]
 
-    const headers = new Headers({
-        "caller-app-id": "BISpublic",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${APP_SESSION.accessToken}`,
-        "Access-Control-Request-Method": "DELETE",
-        "Access-Control-Request-Headers": "caller-app-id, Content-Type, Access-Control-Request-Method, Authorization"
-    })
-
-    const options = {
-        headers,
-        method: "DELETE",
-        body: JSON.stringify(APP_SESSION)
-    }
-
-    try {
-
-        const response = await fetch(url, options)
-        
-        if (response.status === 204){
-            return true
-        }else{
-            throw new Error("Problem in the request.")
-        }
-
-    } catch (error) {
-
-        errorReporter(error)
-
-    }
+    return await FetchRequest(url, APP_SESSION, "DELETE", true)
 
 }
 
