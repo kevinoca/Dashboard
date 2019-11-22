@@ -25,16 +25,33 @@ const FetchRequest = async (url = "", data = {}, method = "GET", authorization =
     try {
 
         const request = await fetch(url, options)
-        const response = await request.json()
 
-        if (request.ok) {
+        if (options.method !== "DELETE") {
 
-            return response
+            const response = await request.json()
+
+            if (request.ok) {
+
+                return response
+
+            } else {
+
+                throw Error("The request has failed.")
+
+            }
 
         } else {
 
-            throw Error("The request has failed.")
-            
+            if (request.ok) {
+
+                return request
+
+            } else {
+
+                throw Error("The request has failed.")
+
+            }
+
         }
 
     }
@@ -42,7 +59,7 @@ const FetchRequest = async (url = "", data = {}, method = "GET", authorization =
     catch (error) {
 
         errorReporter(error)
-        
+
     }
 
 }
